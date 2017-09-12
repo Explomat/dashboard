@@ -1,0 +1,43 @@
+.task {
+    padding: 6px;
+    font-size: 14px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid #ccc;
+    background-color: #fbfbfb;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &__name {
+
+    }
+    &__body {
+        .task__start-usage-date {
+            font-size: 11px;
+        }
+        .task__last-usage-date {
+            font-size: 11px;
+        }
+        .task__status-title {
+            float: right;
+            font-size: 11px;
+
+            &--plan {
+
+            }
+            &--active {
+                color: #FF9800;
+            }
+            &--passed {
+                color: #4CAF50;
+            }
+            &--failed {
+                color: #F44336;
+            }
+            &--cancel {
+                color: #9E9E9E;
+            }
+        }
+    }
+}

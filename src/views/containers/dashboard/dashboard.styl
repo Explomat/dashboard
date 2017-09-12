@@ -1,0 +1,67 @@
+.dashboard-container{
+    &__info {
+        padding: 12px;
+        font-size: 12px;
+
+        .dashboard-container__status {
+            margin-right: 12px;
+            .dashboard-container__status-label {
+                color: #077fcc;
+                margin-right: 4px;
+            }
+            .dashboard-container__status-value{
+                text-decoration: underline;
+                &--active {
+                    color: #FF9800;
+                }
+                &--passed {
+                    color: #4CAF50;
+                }
+                &--failed {
+                    color: #F44336;
+                }
+                &--cancel {
+                    color: #9E9E9E;
+                }
+            }
+        }
+        .dashboard-container__plan-readiness-date{
+            .dashboard-container__plan-readiness-date-label {
+                color: #077fcc;
+                margin-right: 4px;
+            }
+            .dashboard-container__plan-readiness-date-value{
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .dashboard {
+        &__block-titles {
+            box-shadow: 0 1px 5px 0 rgba(0,0,0,.15);
+            padding: 4px;
+            background-color: #fff;
+        }
+        &__body {
+            box-shadow: 0 3px 3px -1px rgba(0,0,0,0.15);
+        }
+
+        &__footer {
+            margin-top: 24px;
+
+            .dashboard__footer-task-statuses{
+                padding: 12px 12px 0 12px;
+            }
+            .dashboard__footer-taks{
+                box-shadow: 0 3px 3px -1px rgba(0,0,0,0.15);
+            }
+        }
+    }
+}
+
+/* Portrait and Landscape */
+@media only screen and (min-width: 320px) and (max-width: 736px) {
+	.dashboard-container__status, .dashboard-container__plan-readiness-date {
+        display: block;
+    }
+}
