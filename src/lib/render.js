@@ -8,9 +8,10 @@ const EXCLUDED_PROPS = {
 };
 let rootDomNode = null;
 const nodes = {};
+const components = {};
 
 export function update(id){
-	const obj = nodes[id];
+	const obj = components[id];
 	const parentDomNode = (obj.parent && obj.parent.domNode ? obj.parent.domNode : rootDomNode);
 	_renderTree(obj, parentDomNode);
 }
@@ -70,15 +71,25 @@ function _clearNode(id){
 }
 
 function _renderTree({ key, type, props, parent, id }, parentDomNode) {
-	const _id = id !== undefined ? id.toString() : '0';
-	let [ oid ] = _id.split('$');
-	oid = oid[(oid.length - 1)];
-	const okey = key !== undefined && key !== null ? `$${key}` : '';
-	
-	const parentId = parent ? parent.id.toString() : '0';
-	const [ pid ] = parentId.split('$');
-	
-	const newId = `${pid}.${oid}${okey}`;
+	let newId = null;
+	if (parent && typeof parent.type === 'function') {
+		newId = parent.id;
+	} else {
+		const _id = id !== undefined ? id.toString() : '0';
+		let [ oid ] = _id.split('$');
+		if (~oid.indexOf('.')) {
+			const lastIndex = oid.lastIndexOf('.');
+			oid = oid.substr(lastIndex + 1);
+		}
+		//oid[(oid.length - 1)];
+		const okey = key !== undefined && key !== null ? `$${key}` : '';
+		
+		const parentId = parent ? parent.id.toString() : '0';
+		const [ pid ] = parentId.split('$');
+		
+		newId = `${pid}.${oid}${okey}`;
+	}
+
 	const obj = {
 		key,
 		id: newId,
@@ -86,14 +97,12 @@ function _renderTree({ key, type, props, parent, id }, parentDomNode) {
 		parent
 	};
 	
-	const isSameElement = nodes.hasOwnProperty(newId) &&
-							nodes[newId].type === type;
-	
 	if (typeof type === 'function'){
+		const isSameElement = components.hasOwnProperty(newId) && components[newId].type === type;
 		let Component = null;
 
 		if (isSameElement){
-			Component = nodes[newId].instance;
+			Component = components[newId].instance;
 		} else {
 			Component = new type(props);
 			Component.id = newId;
@@ -101,7 +110,7 @@ function _renderTree({ key, type, props, parent, id }, parentDomNode) {
 
 		obj.props = props;
 		obj.instance = Component;
-		nodes[newId] = obj;
+		components[newId] = obj;
 
 		if (Component.componentWillMount && !isSameElement){
 			Component.componentWillMount();
@@ -125,9 +134,14 @@ function _renderTree({ key, type, props, parent, id }, parentDomNode) {
 		}
 		return obj;
 	} else if (typeof type === 'string') {
-		if (isSameElement){
-			obj.domNode = nodes[newId].domNode;
-			_clearNode(newId);
+		if (nodes.hasOwnProperty(newId)){
+			if (nodes[newId].type === type) {
+				obj.domNode = nodes[newId].domNode;
+				_clearNode(newId);
+			} else {
+				obj.domNode = document.createElement(type);
+			}
+			//obj.domNode = nodes[newId].domNode;
 		} else {
 			obj.domNode = document.createElement(type);
 		}

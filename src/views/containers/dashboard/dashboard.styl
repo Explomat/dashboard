@@ -26,11 +26,21 @@
             }
         }
         .dashboard-container__plan-readiness-date{
+            margin-right: 12px;
             .dashboard-container__plan-readiness-date-label {
                 color: #077fcc;
                 margin-right: 4px;
             }
             .dashboard-container__plan-readiness-date-value{
+                text-decoration: underline;
+            }
+        }
+        .dashboard-container__finish-date{
+            .dashboard-container__finish-date-label {
+                color: #077fcc;
+                margin-right: 4px;
+            }
+            .dashboard-container__finish-date-value{
                 text-decoration: underline;
             }
         }
@@ -43,6 +53,9 @@
             background-color: #fff;
         }
         &__body {
+            padding: 2px;
+            height: 300px;
+            overflow-y: auto;
             box-shadow: 0 3px 3px -1px rgba(0,0,0,0.15);
         }
 
@@ -61,7 +74,7 @@
 
 /* Portrait and Landscape */
 @media only screen and (min-width: 320px) and (max-width: 736px) {
-	.dashboard-container__status, .dashboard-container__plan-readiness-date {
+	.dashboard-container__status, .dashboard-container__plan-readiness-date, .dashboard-container__finish-date {
         display: block;
     }
 }

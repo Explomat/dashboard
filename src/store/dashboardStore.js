@@ -3,20 +3,26 @@ import { register } from './dispatcher';
 import constants from '../constants';
 
 let state = {
+	id: null,
+	status: null,
+	statusTitle: '',
+	planReadinessDate: '',
+	finishDate: '',
 	blocks: [],
 	activeBlock: null,
 	tasks: [],
 	filteredTasks: [],
 	taskStatuses: {},
 	activeTaskStatus: null,
-	isFetching: false
+	isFetching: false,
+	error: null
 };
 
 export function addEventListener(cb){
 	subscribe('update', cb);
 }
 
-register(function calendarStore(action){
+register(function dashboardStore(action){
 	switch (action.type){
 		case constants.DASHBOARD_GET_STATE: {
 			state = {
@@ -27,6 +33,7 @@ register(function calendarStore(action){
 			break;
 		}
 		case constants.DASHBOARD_GET_STATE_SUCCESS: {
+			const countTasksByStatus = {};
 			const tasks = [];
 			const taskStatuses = {};
 			action.state.blocks.reduce((f, s) => {
@@ -41,6 +48,11 @@ register(function calendarStore(action){
 				});
 				return t.concat(s.tasks || []);
 			}, []).forEach(c => {
+				if (!countTasksByStatus[c.status]) {
+					countTasksByStatus[c.status] = 0;
+				}
+				countTasksByStatus[c.status]++;
+
 				tasks.push(c);
 				taskStatuses[c.status] = c.statusTitle;
 			});
@@ -51,9 +63,19 @@ register(function calendarStore(action){
 				...action.state,
 				tasks,
 				filteredTasks,
+				countTasksByStatus,
 				taskStatuses,
 				activeTaskStatus,
 				activeBlock: action.state.blocks[0],
+				isFetching: false
+			};
+			emit('update', state);
+			break;
+		}
+		case constants.DASHBOARD_GET_STATE_FAILURE: {
+			state = {
+				...state,
+				error: action.error,
 				isFetching: false
 			};
 			emit('update', state);

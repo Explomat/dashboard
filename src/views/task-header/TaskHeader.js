@@ -17,13 +17,20 @@ class TaskHeader extends Component {
 	}
 
 	render(){
-		const { name, isActive } = this.props;
+		const { name, count, isActive } = this.props;
 		const classes = `task-header ${isActive ? 'task-header--active' : ''}`;
 		return (
 			tags.span({
 				class: classes,
 				onClick: this.handleClick
-			}, name)
+			}, [
+				tags.span({
+					class: 'task-header__name'
+				}, name),
+				tags.span({
+					class: 'task-header__count'
+				}, `(${count})`)
+			])
 		);
 	}
 }

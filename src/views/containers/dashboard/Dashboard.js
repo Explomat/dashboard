@@ -5,12 +5,13 @@ import Block from '../../block';
 import Task from '../../task';
 import BlockHeader from '../../block-header';
 import TaskHeader from '../../task-header';
+import Error from '../../error';
 import { addEventListener } from '../../../store/dashboardStore';
 import {
 	getState,
 	selectBlock,
 	selectTaskStatus
-} from '../../../actions/dashboardActions';
+} from '../../../actions';
 import './dashboard.styl';
 
 function updateState(st) {
@@ -42,21 +43,58 @@ export class Dashboard extends Component {
 	}
 
 	render(){
-		const {
-			status,
-			statusTitle,
-			planReadinessDate,
-			blocks,
-			activeBlock,
-			filteredTasks,
+		/*const {
 			taskStatuses,
 			activeTaskStatus,
+			filteredTasks,
 			isFetching
 		} = this.state;
 
 		if (isFetching){
 			return tags.div({
 				class: 'overlay-loading overlay-loading--show'
+			});
+		}
+
+		return tags.div({
+			class: 'dashboard__footer'
+		}, [
+			tags.div({
+				class: 'dashboard__footer-task-statuses'
+			}, Object.keys(taskStatuses).map(cs => TaskHeader({
+				id: cs,
+				name: taskStatuses[cs],
+				isActive: activeTaskStatus === cs,
+				onClick: this.handleSelectTaskStatus
+			}))),
+			tags.div({
+				class: 'dashboard__footer-taks'
+			}, filteredTasks.map(t => Task(t)))
+		]);*/
+		const {
+			status,
+			statusTitle,
+			planReadinessDate,
+			finishDate,
+			blocks,
+			activeBlock,
+			filteredTasks,
+			countTasksByStatus,
+			taskStatuses,
+			activeTaskStatus,
+			isFetching,
+			error
+		} = this.state;
+
+		if (isFetching){
+			return tags.div({
+				class: 'overlay-loading overlay-loading--show'
+			});
+		}
+
+		if (error){
+			return Error({
+				text: error
 			});
 		}
 
@@ -87,6 +125,16 @@ export class Dashboard extends Component {
 					tags.span({
 						class: 'dashboard-container__plan-readiness-date-value'
 					}, planReadinessDate)
+				]),
+				finishDate && tags.span({
+					class: 'dashboard-container__finish-date'
+				}, [
+					tags.span({
+						class: 'dashboard-container__finish-date-label'
+					}, 'Дата фактического завершения:'),
+					tags.span({
+						class: 'dashboard-container__finish-date-value'
+					}, finishDate)
 				])
 			]),
 			tags.div({
@@ -114,6 +162,7 @@ export class Dashboard extends Component {
 					}, Object.keys(taskStatuses).map(cs => TaskHeader({
 						id: cs,
 						name: taskStatuses[cs],
+						count: countTasksByStatus[cs],
 						isActive: activeTaskStatus === cs,
 						onClick: this.handleSelectTaskStatus
 					}))),

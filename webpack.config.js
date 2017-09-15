@@ -25,7 +25,10 @@ module.exports = {
                 loader: 'eslint-loader',
                 enforce: 'pre',
                 include: [
-                  path.resolve(__dirname, 'src'),
+                    path.resolve(__dirname, 'src')
+                ],
+                exclude: [
+                     path.resolve(__dirname, 'src/server')
                 ],
                 options: {
                     fix: true

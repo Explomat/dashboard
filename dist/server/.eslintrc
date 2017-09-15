@@ -1,33 +1,6 @@
 {
     "parser": "babel-eslint",
 
-    "env": {
-        "browser": true,
-        "node": true,
-        "mocha": true,
-        "es6": true
-    },
-
-    "ecmaFeatures": {
-        "arrowFunctions": true,
-        "blockBindings": true,
-        "classes": true,
-        "defaultParams": true,
-        "destructuring": true,
-        "forOf": true,
-        "generators": false,
-        "modules": true,
-        "objectLiteralComputedProperties": true,
-        "objectLiteralDuplicateProperties": false,
-        "objectLiteralShorthandMethods": true,
-        "objectLiteralShorthandProperties": true,
-        "restParams": true,
-        "spread": true,
-        "superInFunctions": true,
-        "templateStrings": true,
-        "jsx": true
-    },
-
     "rules":{
         // Possible errors
         "comma-dangle": [2, "never"],
@@ -61,8 +34,8 @@
         "curly": [2, "multi-line"],
         "default-case": 2,
         "dot-notation": [2, { "allowKeywords": true }],
-        "eqeqeq": 2,
-        "guard-for-in": 2,
+        "eqeqeq": 0,
+        "guard-for-in": 0,
         "no-alert": 1,
         "no-caller": 2,
         "no-case-declarations": 2,
@@ -79,14 +52,14 @@
         "no-labels": 2,
         "no-lone-blocks": 2,
         "no-loop-func": 2,
-        "no-multi-str": 2,
+        "no-multi-str": 0,
         "no-native-reassign": 2,
         "no-new": 2,
         "no-new-func": 2,
         "no-new-wrappers": 2,
         "no-octal": 2,
         "no-octal-escape": 2,
-        "no-param-reassign": [2, { "props": false }],
+        "no-param-reassign": 0,
         "no-proto": 2,
         "no-redeclare": 2,
         "no-script-url": 2,
@@ -99,24 +72,11 @@
         "wrap-iife": [2, "outside"],
         "yoda": 2,
 
-        // ES2015
-        "arrow-parens": 0,
-        "arrow-spacing": [2, { "before": true, "after": true }],
-        "constructor-super": 2,
-        "no-class-assign": 2,
-        "no-const-assign": 2,
-        "no-this-before-super": 0,
-        "no-var": 2,
-        "object-shorthand": [2, "always"],
-        "prefer-arrow-callback": 0,
-        "prefer-const": 2,
-        "prefer-spread": 2,
-        "prefer-template": 0,
-
         // Strict Mode
         "strict": [2, "never"],
 
         // Variables
+        "no-var": 0,
         "no-catch-shadow": 2,
         "no-delete-var": 2,
         "no-label-var": 2,
@@ -144,7 +104,7 @@
         "indent": [2, 'tab', { "SwitchCase": 1 }],
         "jsx-quotes": [2, "prefer-single"],
         "linebreak-style": [2, "windows"],
-        "max-len": [2, 128, 4, {
+        "max-len": [2, 512, 4, {
             "ignoreUrls": true,
             "ignoreComments": false,
             "ignorePattern": "^\\s*(const|let|var)\\s+\\w+\\s+\\=\\s+\\/.*\\/(|i|g|m|ig|im|gm|igm);?$"
@@ -163,7 +123,7 @@
         "object-curly-spacing": [2, "always"],
         "one-var": 0,
         "padded-blocks": [2, "never"],
-        "quotes": [1, "single", "avoid-escape"],
+        "quotes": [0, "single", "avoid-escape"],
         "semi-spacing": [2, { "before": false, "after": true }],
         "semi": [2, "always"],
         "keyword-spacing": 2,
@@ -180,10 +140,13 @@
     },
 
      "globals":{
-        "$": true,
-        "ga": true,
-        "Promise": true,
-        "isNaN": true,
-        "ActiveXObject": true
+        "ArrayOptFirstElem": true,
+        "XQuery": true,
+        "DropFormsCache": true,
+        "OpenDoc": true,
+        "UrlFromDocID": true,
+        "curUserID": true,
+        "Int": true,
+        "DateNewTime": true
     }
 }
